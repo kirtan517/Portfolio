@@ -1,0 +1,21 @@
+.LogoName{
+    /* background-color: red; */
+    /* background-color: transparent; */
+    background:transparent;
+    justify-content: center;
+    align-items: center;
+    margin: 0px 0px;
+    padding-right : 20px;
+    background-color: transparent;
+}
+.Tabs{
+    justify-content: center;
+    align-items: center;
+    margin: 0px 0px;
+    padding : 0px 0px
+}
+
+.NavBarContainer{
+    /* background-color: pink; */
+    margin: 0px 0px;
+}
