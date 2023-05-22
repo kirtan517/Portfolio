@@ -12,7 +12,7 @@ import { BoxProps } from "@mui/material/Box";
 import { useTheme, ThemeProvider, createTheme } from "@mui/material/styles";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
-import { ColorModeContext } from "./Main";
+import { ActiveTabsContext, ColorModeContext } from "./Main";
 import IconButton from "@mui/material/IconButton";
 import { useState } from "react";
 import Menu from "@mui/material/Menu";
@@ -22,8 +22,11 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import MenuIcon from "@mui/icons-material/Menu";
+import { useContext } from "react";
+import type { Tabs } from "./Main";
+import { useNavigate } from "react-router-dom";
 
-const menuOptions = ["Home", "Experience", "Projects"];
+const menuOptions: Tabs[] = ["Home", "Experience", "Projects"];
 
 interface Props {
 	window?: () => Window;
@@ -70,10 +73,14 @@ function Item(props: BoxProps) {
 					theme.palette.mode === "dark" ? "grey.300" : "grey.800",
 				borderColor: (theme) =>
 					theme.palette.mode === "dark" ? "grey.800" : "grey.300",
-				fontWeight: "700",
 				marginLeft: "6%",
 				marginTop: "0px",
 				marginBottom: "0px",
+				"&:hover": {
+					textDecoration: "underline",
+					textUnderlineOffset: "5px",
+					cursor: "pointer",
+				},
 				...sx,
 			}}
 			{...other}
@@ -97,6 +104,8 @@ function ElevationScroll(props: Props) {
 
 export default function NavBar(props: Props) {
 	const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+	const { activeTab, setActiveTab } = useContext(ActiveTabsContext);
+	const navigate = useNavigate();
 
 	const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
 		null
@@ -116,8 +125,22 @@ export default function NavBar(props: Props) {
 		setAnchorElNav(null);
 	};
 
-	const handleCloseUserMenu = () => {
+	const handleCloseUserMenu = (option: Tabs) => {
 		setAnchorElUser(null);
+		handleActiveTabs(option);
+	};
+
+	const handleActiveTabs = (option: Tabs) => {
+		if (option == "Home") {
+			setActiveTab("Home");
+			navigate("/");
+		} else if (option == "Experience") {
+			setActiveTab("Experience");
+			navigate("/experience");
+		} else if (option == "Projects") {
+			setActiveTab("Projects");
+			navigate("/projects");
+		}
 	};
 
 	useEffect(() => {
@@ -139,12 +162,23 @@ export default function NavBar(props: Props) {
 				<AppBar
 					sx={{
 						/* From https://css.glass */
-						background: (theme) => theme.palette.mode === "dark" ? "rgba(0, 0, 0, 0.35)"  : "rgba(255, 255, 255, 0.17)",
+						background: (theme) =>
+							theme.palette.mode === "dark"
+								? "rgba(0, 0, 0, 0.35)"
+								: "rgba(255, 255, 255, 0.17)",
 						// borderRadius: "16px",
-						boxShadow:(theme) => theme.palette.mode === "dark"? "0 4px 30px rgba(0, 0, 0, 0.1)" :"0 4px 30px rgba(0, 0, 0, 0.1)",
-						backdropFilter:(theme) => theme.palette.mode === "dark"? "blur(5.8px)" :"blur(4px)",
-						WebkitBackdropFilter:(theme) => theme.palette.mode === "dark"? "blur(5.8px)" :"blur(4px)",
-						border:(theme) => theme.palette.mode === "dark"? "1px solid rgba(0, 0, 0, 0.42)" :"1px solid rgba(255, 255, 255, 0.31)",
+						boxShadow: (theme) =>
+							theme.palette.mode === "dark"
+								? "0 4px 30px rgba(0, 0, 0, 0.1)"
+								: "0 4px 30px rgba(0, 0, 0, 0.1)",
+						backdropFilter: (theme) =>
+							theme.palette.mode === "dark" ? "blur(5.8px)" : "blur(4px)",
+						WebkitBackdropFilter: (theme) =>
+							theme.palette.mode === "dark" ? "blur(5.8px)" : "blur(4px)",
+						border: (theme) =>
+							theme.palette.mode === "dark"
+								? "1px solid rgba(0, 0, 0, 0.42)"
+								: "1px solid rgba(255, 255, 255, 0.31)",
 					}}
 				>
 					<Toolbar>
@@ -180,7 +214,14 @@ export default function NavBar(props: Props) {
 									variant="h6"
 									component="div"
 									className="LogoName"
-									sx={{ fontWeight: "700",paddingRight : "20px" }}
+									sx={{
+										fontWeight: "700",
+										paddingRight: "20px",
+										"&:hover": {
+											cursor: "pointer",
+										},
+									}}
+									onClick={() => handleActiveTabs("Home")}
 								>
 									Kirtan Kanani
 								</Typography>
@@ -197,7 +238,19 @@ export default function NavBar(props: Props) {
 									className="Tabs"
 								>
 									{menuOptions.map((option, index) => (
-										<Item order={index}>{option}</Item>
+										<Item
+											order={index}
+											sx={{
+												fontWeight: activeTab == option ? "700" : "500",
+												textDecoration:
+													activeTab == option ? "underline" : "none",
+												textUnderlineOffset:
+													activeTab == option ? "5px" : "0px",
+											}}
+											onClick={() => handleActiveTabs(option)}
+										>
+											{option}
+										</Item>
 									))}
 								</Box>
 							) : (
@@ -208,7 +261,11 @@ export default function NavBar(props: Props) {
 										</IconButton>
 									</Tooltip>
 									<Menu
-										sx={{ mt: "45px" }}
+										sx={{
+											mt: "45px",
+											"& .MuiPaper-root": {
+											},
+										}}
 										id="menu-appbar"
 										anchorEl={anchorElUser}
 										anchorOrigin={{
@@ -221,10 +278,20 @@ export default function NavBar(props: Props) {
 											horizontal: "right",
 										}}
 										open={Boolean(anchorElUser)}
-										onClose={handleCloseUserMenu}
+										onClose={() => handleCloseUserMenu(activeTab)}
 									>
 										{menuOptions.map((option) => (
-											<MenuItem key={option} onClick={handleCloseUserMenu}>
+											<MenuItem
+												key={option}
+												onClick={() => handleCloseUserMenu(option)}
+												sx={{
+													"&:hover": {
+														textDecoration: "underline",
+														textUnderlineOffset: "5px",
+														cursor: "pointer",
+													},
+												}}
+											>
 												<Typography textAlign="center">{option}</Typography>
 											</MenuItem>
 										))}

@@ -2,7 +2,7 @@ import { Box, Container, Grid, Typography } from "@mui/material";
 import React from "react";
 import "./Bio.css";
 
-export default function Bio() {
+export default function Home() {
 	return (
 		<Container>
 			<Box>
