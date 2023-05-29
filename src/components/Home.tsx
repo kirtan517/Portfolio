@@ -1,10 +1,18 @@
 import { Box, Container, Grid, Typography } from "@mui/material";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import "./Bio.css";
+import { ActiveTabsContext } from "./Main";
 
 export default function Home() {
+
+	const {activeTab, setActiveTab} = useContext(ActiveTabsContext);
+
+	useEffect(()=>{
+		setActiveTab("Home");
+	  })
+
 	return (
-		<Container>
+		<Container  sx = {{width : {xl : "85%", lg : "85%",md : "85%", sm : "95%" , xs : "100%"}}}>
 			<Box>
 				<Typography className="Salutation" variant="h6">
 					Hello, I am Meng student at University of Waterloo.
