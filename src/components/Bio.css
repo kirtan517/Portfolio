@@ -1,4 +1,13 @@
 .Salutation{
-    background-color: red;
-    
+    background-color: #90A955;
+}
+
+.Main-Light{
+    background: rgb(241,246,182);
+    background: linear-gradient(0deg, rgba(241,246,182,1) 7%, rgba(241,246,176,1) 40%, rgba(251,255,208,1) 100%);
+}
+
+.Main-Dark{
+    background: rgb(8,13,19);
+    background: linear-gradient(0deg, rgba(8,13,19,1) 9%, rgba(13,22,32,1) 33%, rgba(13,27,42,1) 100%);
 }

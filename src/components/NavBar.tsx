@@ -165,8 +165,7 @@ export default function NavBar(props: Props) {
 						background: (theme) =>
 							theme.palette.mode === "dark"
 								? "rgba(0, 0, 0, 0.35)"
-								: "rgba(255, 255, 255, 0.17)",
-						// borderRadius: "16px",
+								: "rgba(183, 200, 146, 0.50)",
 						boxShadow: (theme) =>
 							theme.palette.mode === "dark"
 								? "0 4px 30px rgba(0, 0, 0, 0.1)"

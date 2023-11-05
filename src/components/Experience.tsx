@@ -10,7 +10,11 @@ import {
 	Typography,
 } from "@mui/material";
 
-function OneExperienceComponenet() {
+interface Props{
+	"mode" : "light" | "dark";
+}
+
+function OneExperienceComponenet(props : Props) {
 	return (
 		<Container>
 			<Grid container sx={{}}>
@@ -18,7 +22,7 @@ function OneExperienceComponenet() {
 					style={{
 						padding: "3.5px",
 						position: "relative",
-						background: "white",
+						background: props.mode === "light" ? "#132A13": "#415A77",
 						transform: "translateY(5px)",
 					}}
 				>
@@ -28,10 +32,9 @@ function OneExperienceComponenet() {
 							position: "absolute",
 							transform: "translateX(-50%)",
 							top: "-1px",
-							border: "2px solid white",
+							border: `2px solid ${props.mode === "light" ? "#132A13": "#415A77"}`,
 						}}
 					>
-						H
 					</Avatar>
 				</div>
 
@@ -43,7 +46,7 @@ function OneExperienceComponenet() {
 					}}
 				>
 					<Typography
-						sx={{ bgcolor: "background.paper", borderRadius: 1, p: 1, m: 1 }}
+						sx={{ bgcolor: props.mode === "light" ? "#B7C892": "#1B263B", borderRadius: 3, p: 2, m: 2 }}
 					>
 						Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam
 						natus rerum cum quos molestiae? Soluta eligendi perspiciatis
@@ -76,7 +79,7 @@ function OneExperienceComponenet() {
 					>
 						<div
 							style={{
-								background: "white",
+								background: props.mode === "light" ? "#132A13": "#415A77",
 								height: "15px",
 								width: "15px",
 								position: "absolute",
@@ -92,7 +95,7 @@ function OneExperienceComponenet() {
 	);
 }
 
-function Experience() {
+function Experience(props:Props) {
 	const { activeTab, setActiveTab } = useContext(ActiveTabsContext);
 
 	useEffect(() => {
@@ -103,10 +106,10 @@ function Experience() {
 		<Container
 			sx={{ width: { xl: "85%", lg: "85%", md: "85%", sm: "95%", xs: "100%" } }}
 		>
-			<OneExperienceComponenet></OneExperienceComponenet>
-			<OneExperienceComponenet></OneExperienceComponenet>
-			<OneExperienceComponenet></OneExperienceComponenet>
-			<OneExperienceComponenet></OneExperienceComponenet>
+			<OneExperienceComponenet mode={props.mode}></OneExperienceComponenet>
+			<OneExperienceComponenet mode={props.mode}></OneExperienceComponenet>
+			<OneExperienceComponenet mode={props.mode}></OneExperienceComponenet>
+			<OneExperienceComponenet mode={props.mode}></OneExperienceComponenet>
 		</Container>
 	);
 }

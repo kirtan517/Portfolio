@@ -1,18 +1,10 @@
 import React from "react";
 import Home from "./Home";
 import NavBar from "./NavBar";
+import "./Bio.css";
 
-import IconButton from "@mui/material/IconButton";
-import Box from "@mui/material/Box";
-import {
-	useTheme,
-	ThemeProvider,
-	createTheme,
-	experimental_extendTheme,
-} from "@mui/material/styles";
-import Brightness4Icon from "@mui/icons-material/Brightness4";
-import Brightness7Icon from "@mui/icons-material/Brightness7";
-import { CssBaseline } from "@mui/material";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { CssBaseline, Skeleton } from "@mui/material";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Experience from "./Experience";
 import Projects from "./Projects";
@@ -52,7 +44,13 @@ export default function Main() {
 				palette: {
 					mode,
 					background: {
-						default: mode == "dark" ? " #141010" : "#ddeedf",
+						default: mode == "dark" ? "rgb(0,0,0)" : "#F1F6B6",
+					},
+					primary: {
+						main: mode == "dark" ? "#0D1B2A" : "#F1F6B6",
+					},
+					secondary: {
+						main: mode == "dark" ? "#1B263B" : "#90A955",
 					},
 				},
 			}),
@@ -61,17 +59,19 @@ export default function Main() {
 
 	return (
 		<ColorModeContext.Provider value={colorMode}>
-			<ActiveTabsContext.Provider value={({activeTab, setActiveTab})}>
+			<ActiveTabsContext.Provider value={{ activeTab, setActiveTab }}>
 				<ThemeProvider theme={theme}>
 					<CssBaseline />
 					<BrowserRouter>
-						<NavBar>
-							<Routes>
-								<Route path="/" element={<Home />} />
-								<Route path="/experience" element={<Experience />} />
-								<Route path="/projects" element={<Projects />} />
-							</Routes>
-						</NavBar>
+						<div className={mode === "light" ? "Main-Light" : "Main-Dark"}>
+							<NavBar>
+								<Routes>
+									<Route path="/" element={<Home />} />
+									<Route path="/experience" element={<Experience mode={mode}/>} />
+									<Route path="/projects" element={<Projects  />} />
+								</Routes>
+							</NavBar>
+						</div>
 					</BrowserRouter>
 				</ThemeProvider>
 			</ActiveTabsContext.Provider>
