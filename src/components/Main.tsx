@@ -68,7 +68,7 @@ export default function Main() {
 								<Routes>
 									<Route path="/" element={<Home />} />
 									<Route path="/experience" element={<Experience mode={mode}/>} />
-									<Route path="/projects" element={<Projects  />} />
+									<Route path="/projects" element={<Projects  mode = {mode} />} />
 								</Routes>
 							</NavBar>
 						</div>

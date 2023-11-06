@@ -1,0 +1,23 @@
+.CardContent-light{
+    background-color: #B7C892;
+}
+
+.CardContent-dark{
+    background-color: #1B263B;
+}
+
+.CardActions-light{
+    background-color: #B7C892;
+}
+
+.CardActions-dark{
+    background-color: #1B263B;
+}
+
+.Button-light{
+    background-color: red;
+}
+
+.Button-dark{
+    background-color: #1B263B;
+}

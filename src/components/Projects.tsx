@@ -6,75 +6,98 @@ import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import Grid from "@mui/material/Grid";
 import Skeleton from "@mui/material/Skeleton";
+import Card from "@mui/material/Card";
+import CardHeader from "@mui/material/CardHeader";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import IconButton from "@mui/material/IconButton";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { Button, CardActionArea, CardActions, Icon } from "@mui/material";
+import FC from "../static/images/contemplative-reptile.jpg";
+import "./Project.css"
+import GitHubIcon from '@mui/icons-material/GitHub';
 
-const Image = styled("img")({
-	width: "100%",
-});
 
-function SkeletonChildrenDemo(props: { loading?: boolean }) {
-	const { loading = false } = props;
+interface MediaProps {
+	loading?: boolean;
+}
 
+interface Props{
+  mode: "light" | "dark"; 
+}
+
+function MultiActionAreaCard(props : Props) {
 	return (
-		<div>
-			<Box sx={{ display: "flex", alignItems: "center" }}>
-				<Box sx={{ margin: 1 }}>
-					{loading ? (
-						<Skeleton variant="circular">
-							<Avatar />
-						</Skeleton>
-					) : (
-						<Avatar src="https://pbs.twimg.com/profile_images/877631054525472768/Xp5FAPD5_reasonably_small.jpg" />
-					)}
-				</Box>
-				<Box sx={{ width: "100%" }}>
-					{loading ? (
-						<Skeleton width="100%">
-							<Typography>.</Typography>
-						</Skeleton>
-					) : (
-						<Typography>Ted</Typography>
-					)}
-				</Box>
-			</Box>
-			{loading ? (
-				<Skeleton variant="rectangular" width="100%">
-					<div style={{ paddingTop: "57%" }} />
-				</Skeleton>
-			) : (
-				<Image
-					src="https://pi.tedcdn.com/r/talkstar-photos.s3.amazonaws.com/uploads/72bda89f-9bbf-4685-910a-2f151c4f3a8a/NicolaSturgeon_2019T-embed.jpg?w=512"
-					alt=""
-				/>
-			)}
-		</div>
+		<Card sx={{ maxWidth: 360 }}>
+			<CardActionArea>
+				<CardMedia component="img" height="250" image={FC} alt="green iguana" />
+				<CardContent className = {props.mode === "dark" ? "CardContent-dark" : "CardContent-light" }>
+					<Typography gutterBottom variant="h5" component="div">
+						Lizard
+					</Typography>
+					<Typography variant="body2" color="text.secondary">
+						Lizards are a widespread group of squamate reptiles, with over 6,000
+						species, ranging across all continents except Antarctica
+					</Typography>
+				</CardContent>
+			</CardActionArea>
+			<CardActions className = {props.mode === "dark" ? "CardActions-dark" : "CardActions-light" }>
+				<Button size="small" style = {
+          props.mode === "dark"? 
+        {
+          background : "#415A77"
+        } 
+        : 
+        {
+          background : '#132A13'
+        }} >
+					Learn More
+				</Button>
+        <IconButton size="small" >
+					<GitHubIcon/>
+				</IconButton>
+			</CardActions>
+		</Card>
 	);
 }
 
-export default function Projects() {
+
+export default function Projects(props : Props) {
 	const { activeTab, setActiveTab } = useContext(ActiveTabsContext);
 
 	useEffect(() => {
 		setActiveTab("Projects");
 	});
+  
+  const itemStyle = {
+    marginTop: '30px', // Add vertical margin
+  };
+  
 
 	return (
 		<div>
-			<Grid container spacing={8}>
-				<Grid item xs>
-					<SkeletonChildrenDemo />
+				<Grid container spacing={8}>
+					<Grid item xs style={itemStyle}>
+						<MultiActionAreaCard  mode = {props.mode}/>
+					</Grid>
+					<Grid item xs style={itemStyle}>
+						<MultiActionAreaCard  mode = {props.mode}/>
+					</Grid>
+					<Grid item xs style={itemStyle}>
+						<MultiActionAreaCard mode = {props.mode} />
+					</Grid>
 				</Grid>
-				<Grid item xs>
-					<SkeletonChildrenDemo />
+				<Grid container spacing={8}>
+					<Grid item xs style={itemStyle}>
+						<MultiActionAreaCard  mode = {props.mode}/>
+					</Grid>
+					<Grid item xs style={itemStyle}>
+						<MultiActionAreaCard mode = {props.mode} />
+					</Grid>
+					<Grid item xs style={itemStyle}>
+						<MultiActionAreaCard  mode = {props.mode}/>
+					</Grid>
 				</Grid>
-			</Grid>
-			<Grid container spacing={8}>
-				<Grid item xs>
-					<SkeletonChildrenDemo />
-				</Grid>
-				<Grid item xs>
-					<SkeletonChildrenDemo />
-				</Grid>
-			</Grid>
 		</div>
 	);
 }
